@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply</title>
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="s-pagewrap">
+        <header class="s-header">
+            <div class="header-mobile">
+                <span class="mobile-home-link"><a href="index.html">MISA Technology</a></span>
+            </div>
+        </header>
+        <main class="s-content">
+            <section class="s-login target-section">
+                <div class="row login-content wide">
+                    <div class="column">
+                        <h2 class="text-pretitle with-line">Apply</h2>
+                           
+                            
+                            
+    
+    <form action="#" method="POST" class="login-form">
+        <div class="form-group">
+            <label for="name">Name / الاسم:</label>
+            <input type="text" id="name" name="name" class="form-input" required>
+        </div>
+    
+        <div class="form-group">
+            <label for="service">What service can I help you with? / ما هي الخدمة التي يمكنك مساعدتك بها؟</label>
+            <select id="service" name="service" class="form-input">
+                <option value="software_code">Software code / كود برمجي</option>
+                <option value="application">Application / تطبيق</option>
+                <option value="website">Website / موقع إلكتروني</option>
+                <option value="photo_edit">Editing an image or making a photo / تعديل على صورة أو عمل صورة</option>
+                <option value="video_edit">Editing a video or making a video / تعديل على فيديو أو عمل فيديو</option>
+                <option value="voice_edit">Modify the voice / تعديل على صوت</option>
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label for="phone">Phone Number / رقم الهاتف:</label>
+            <input type="tel" id="phone" name="phone" class="form-input" pattern="01[0-9]{9}" required placeholder="01XXXXXXXXX">
+        </div>
+    
+        <div class="form-group">
+            <label for="email">Email / البريد الإلكتروني:</label>
+            <input type="email" id="email" name="email" class="form-input" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" required>
+        </div>
+    
+        <div class="form-group">
+            <label for="notes">Any notes? / هل يوجد أي ملاحظات؟</label>
+            <textarea id="notes" name="notes" class="form-input"></textarea>
+        </div>
+    
+        <div class="form-group">
+            <label for="rating">Rate us from 5 stars / قيمنا من 5 نجوم:</label>
+            <div class="star-rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            <input type="hidden" id="rating" name="rating" value="0">
+        </div>
+    
+        <button type="submit" class="btn btn--medium u-fullwidth">Submit / إرسال</button>
+    </form>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body>
+</html>

@@ -1,704 +1,1250 @@
 <!DOCTYPE html>
-<html class="no-js ss-preload" lang="en">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina | Ultra Professional Developer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
+    <style>
+        body {
+    cursor: none;
+}
 
-    <!--- basic page needs
-    ================================================== -->
-    <meta charset="utf-8">
-    <title>MISA Technolgy-</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff006e;
+            --accent-color: #8338ec;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(15, 15, 15, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --gradient-1: linear-gradient(135deg, #00d4ff, #8338ec);
+            --gradient-2: linear-gradient(135deg, #ff006e, #8338ec);
+            --gradient-3: linear-gradient(135deg, #00d4ff, #ff006e);
+        }
 
-    <!-- mobile specific metas
-    ================================================== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- CSS
-    ================================================== -->
-    <link rel="stylesheet" href="css/vendor.css">
-    <link rel="stylesheet" href="css/styles.css">
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-    <!-- favicons
-    ================================================== -->
-    <link rel="apple-touch-icon" sizes="180x180" href="Untitled-3.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="Untitled-3.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="Untitled-3.png">
-    <link rel="manifest" href="site.webmanifest">
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.15s ease;
+        }
 
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .cursor.expand {
+            transform: scale(3);
+            background: var(--gradient-2);
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--gradient-1);
+            width: 0%;
+            border-radius: 2px;
+            transition: width 3s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 100%;
+            width: 100%;
+            height: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: transform 0.5s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(-100%);
+        }
+
+        .mobile-nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 2rem;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(4rem, 10vw, 10rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.2rem;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-2);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 0;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 10rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .skill-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-15px) rotateY(10deg);
+            box-shadow: 0 25px 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .skill-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .skill-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .skill-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .project-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .project-card:hover {
+            transform: translateY(-20px) rotateY(15deg);
+            box-shadow: 0 30px 80px rgba(0, 212, 255, 0.2);
+        }
+
+        .project-canvas {
+            height: 300px;
+            background: var(--gradient-1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-content {
+            padding: 2.5rem;
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .project-view-btn {
+            display: inline-block;
+            background: var(--gradient-1);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.4s ease;
+        }
+
+        .project-view-btn:hover {
+            background: var(--gradient-2);
+            transform: translateY(-5px);
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 4rem;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: var(--text-secondary);
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-canvas {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    object-fit: cover;
+    display: block;
+    margin: auto;
+}
+
+
+        /* Experience Section */
+        .timeline {
+            position: relative;
+            margin-top: 4rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: start;
+            padding: 2.5rem 0;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: end;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.5s ease;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            border: 4px solid var(--dark-bg);
+        }
+
+        .timeline-date {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Contact Section */
+        .contact-form {
+            max-width: 700px;
+            margin: 4rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+
+        textarea.form-control {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--gradient-1);
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--card-bg);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+               .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-link {
+            width: 80px;
+            height: 80px;
+            background: var(--glass-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: all 0.6s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            font-size: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link:hover {
+            background: var(--gradient-1);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0);
+        }
+
+        /* Floating Elements */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 15%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 140px;
+            height: 140px;
+            top: 65%;
+            right: 5%;
+            animation-delay: 2.5s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 15%;
+            left: 25%;
+            animation-delay: 5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            }
+        }
+
+        @media (max-width: 800px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-items {
+                justify-content: flex-start !important;
+                padding-left: 60px;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cursor, .cursor-follower {
+                display: none;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .section {
+                padding: 6rem 1rem;
+            }
+
+            .hero-content {
+                padding: 0 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .zoom-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease;
+        }
+
+        .zoom-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
 </head>
-
-<body id="top">
-
-
-    <!-- # preloader
-    ================================================== -->
-    <div id="preloader">
-        <div id="loader">
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">MINA</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
         </div>
     </div>
 
+    <!-- Custom Cursors -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
 
-    <!-- # page wrap
-    ================================================== -->
-    <div class="s-pagewrap">
+    <!-- Floating Shapes -->
+    <div class="floating-shapes">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
 
-        <div class="circles">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">MINA</a>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
+    </nav>
 
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" class="mobile-nav-link">Home</a>
+        <a href="#skills" class="mobile-nav-link">Skills</a>
+        <a href="#projects" class="mobile-nav-link">Projects</a>
+        <a href="#about" class="mobile-nav-link">About</a>
+        <a href="#experience" class="mobile-nav-link">Experience</a>
+        <a href="#contact" class="mobile-nav-link">Contact</a>
+    </div>
 
-        <!-- ## site header 
-        ================================================== -->
-        <header class="s-header">
-
-            <div class="header-mobile">
-                <span class="mobile-home-link"><a href="index.html">MISA Technolgy-</a></span>
-                <a class="mobile-menu-toggle" href="#0"><span>Menu</span></a>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <canvas class="hero-bg" id="heroCanvas"></canvas>
+        <div class="hero-content fade-in">
+            <h1 class="hero-title">MINA</h1>
+            <p class="hero-subtitle">Ultra Professional Developer</p>
+            <p class="hero-description">Crafting next-generation digital experiences with cutting-edge technologies and innovative design thinking</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
             </div>
-
-            <div class="row wide main-nav-wrap">
-                <nav class="column lg-12 main-nav">
-                    <ul>
-                        <li><a href="index.html" class="home-link">MISA Technolgy-</a></li>
-                        <li class="current"><a href="#intro" class="smoothscroll">Intro</a></li>
-                        <li><a href="#about" class="smoothscroll">About</a></li>
-                        <li><a href="#works" class="smoothscroll">Works</a></li>
-                        <li><a href="#contact" class="smoothscroll"> Hello</a></li>
-                    </ul>
-                </nav>
-            </div>
-
-        </header> <!-- end s-header -->
-
-
-        <!-- ## main content
-        ==================================================- -->
-        <main class="s-content">
-
-
-            <!-- ### intro
-            ================================================== -->
-            <section id="intro" class="s-intro target-section">
-
-                <div class="row intro-content wide">
-
-                    <div class="column">
-                        <div class="text-pretitle with-line">
-                            Hello
-                        </div>
-
-                        <h1 class="text-huge-title">
-                            I am Mina, <br>
-                            a Programmer <br>
-                            & Designer <br> 
-                            Web developer <br>
-                            & Application Developer
-                        </h1>
-                    </div>
-
-                    <ul class="intro-social">
-                        <li><a href="#0">Behance</a></li>
-                        <li><a href="#0">Twitter</a></li>
-                        <li><a href="#0">Dribbble</a></li>
-                        <li><a href="#0">Instagram</a></li>
-                    </ul>
-
-                </div> <!-- end intro content -->
-
-                <a href="#about" class="intro-scrolldown smoothscroll">
-                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-                    <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/></svg>
-                </a>
-
-            </section> <!-- end s-intro -->
-
-
-            <!-- ### about
-            ================================================== -->
-            <section id="about" class="s-about target-section">
-
-
-                <div class="row about-info wide" data-animate-block>
-
-                    <div class="column lg-6 md-12 about-info__pic-block">
-                        <img src="images/20250129_170304.png" 
-                             srcset="images/20250129_170304.png 1x, images/20250129_170304.png 2x" alt="" class="about-info__pic" data-animate-el>
-                    </div>
-
-                    <div class="column lg-6 md-12">
-                        <div class="about-info__text" >
-
-                            <h2 class="text-pretitle with-line" data-animate-el>
-                                About Me-
-                            </h2>
-                            <p class="attention-getter" data-animate-el>
-                                I’m Mina Samuel,
-                                 a Egyptian programmer and designer with over five years of experience in web development and Android app programming.
-                                  I also specialize in photo editing using Photoshop,
-                                   logo design with Illustrator,
-                                    and video production and editing with Premiere Pro.
-                                     I am one of the founders of MISA Technology,
-                                      an online platform established five years ago,
-                                       where I played a key role in its creation.
-                                        The platform includes several specialized magazines covering topics such as programming,
-                                          photo editing, and video production.
-                            </p>
-                            <a href="appl
-                        html" class="btn btn--medium u-fullwidth" data-animate-el>Apply</a>
-
-                        </div>
-                    </div>
-                </div> <!-- about-info -->
-
-
-                <div class="row about-expertise" data-animate-block>
-                    <div class="column lg-12">
-
-                        <h2 class="text-pretitle" data-animate-el>Expertise</h2>
-
-                        <ul class="skills-list h1" data-animate-el>
-                            <li>Web developer</li>
-                            <li>Android app programming</li>
-                            <li>Photoshop</li>
-                            <li>photo editing</li>
-                            <li>logo design</li>
-                            <li>Illustrator</li>
-                            <li>video editing</li>
-                            <li>premiere pro</li>
-                        </ul>
-
-                    </div>
-                </div> <!-- end about-expertise -->
-
-
-                <div class="row about-timelines" data-animate-block>
-
-                    <div class="column lg-6 tab-12">
-
-                        <h2 class="text-pretitle" data-animate-el>
-                            programming
-                        </h2>
-
-                        <div class="timeline" data-animate-el>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Arduino programing</h3>
-                                    <h5 class="timeline__meta">Starting from</h5>
-                                    <p class="timeline__timeframe">Saturday, May 11, 2019</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    
-                                    <p>I started programming Arduino in 2019.
-                                         It was my first start in the field of programming.
-                                          The first language I started with was C++,
-                                           and it was the first language I learned.
-                                            After that, it was the motivation to learn many other languages.</p>
-                                </div>
-                            </div>
-    
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Web development</h4>
-                                    <h5 class="timeline__meta">Starting from</h5>
-                                    <p class="timeline__timeframe">Sunday, June 13, 2021</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>I started web programming in 2021 and this was the best choice for me to learn and master web programming,
-                                         especially languages ​​such as HTML, CSS, JS and PHP.
-                                          This was the best choice in my life because it motivated me to delve into things that I did not know or pay attention to.</p>
-                                </div>
-                                <div class="timeline__block">
-                                    <div class="timeline__bullet"></div>
-                                    <div class="timeline__header">
-                                        <h4 class="timeline__title">Android app programming</h4>
-                                        <h5 class="timeline__meta">Starting from</h5>
-                                        <p class="timeline__timeframe">Monday, August 28, 2023</p>
-                                    </div>
-                                    
-                                    <div class="timeline__desc">
-                                        <p>I started programming Android applications in 2023,
-                                             and this was considered programming for smart people only because you had to do a lot of analysis
-                                              and understand many rules because the Python language is a language that depends on intelligence
-                                               and quick understanding, and the first application was MISA CHAT</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                
-    
-                        </div> <!-- end timeline -->
-
-                    </div> <!-- end column -->
-
-                    <div class="column lg-6 tab-12">
-                        <div class="timeline__block">
-
-                        <h2 class="text-pretitle" data-animate-el>
-                            Graphic designer
-                        </h2>
-
-                        <div class="timeline" data-animate-el>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">photo editing</h3>
-                                    <h5 class="timeline__meta">With Photoshop</h5>
-                                    <p class="timeline__timeframe">Monday, May 25, 2020</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>I started with Photoshop.
-                                         It was the first start in the field of graphic design because I learned the basics of Photoshop.
-                                          After I learned the basics of Photoshop,
-                                           I delved deeper and deeper,
-                                            and I became a professional in the field of photo editing and logo work on Photoshop.</p>
-                                </div>
-                            </div>
-    
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">video editing</h4>
-                                    <h5 class="timeline__meta">with premiere pro</h5>
-                                    <p class="timeline__timeframe">Monday, August 10, 2020</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>I started with Premiere Pro.
-                                         It was my second foray into graphic design,
-                                          where I learned the basics of video editing.
-                                           After that, I delved deeper into it,
-                                            becoming a professional in the field of production and producing high-quality videos with stunning,
-                                             eye-catching designs.</p>
-                                </div>
-                            </div>
-    
-                        </div> <!-- end timeline -->
-                        
-                    </div> <!-- end column -->
-
-
-                </div> <!-- end about-timelines -->
-
-            </section> <!-- end s-about -->
-
-
-            <!-- ### works
-            ================================================== -->
-            <section id="works" class="s-works target-section">
-
-
-                <div class="row works-portfolio">
-
-                    <div class="column lg-12" data-animate-block>
-
-                        <h2 class="text-pretitle" data-animate-el>
-                            Recent Works
-                        </h2>
-                        <p class="h1" data-animate-el>
-                            Here are some of my favorite projects I have done lately. Feel free to check them out.
-                        </p>
-    
-                        <ul class="folio-list row block-lg-one-half block-stack-on-1000">
-
-                            <li class="folio-list__item column" data-animate-el>
-                                <a class="folio-list__item-link" href="#modal-01">
-                                    <div class="folio-list__item-pic">
-                                        <img src="images/portfolio/fuji.jpg"
-                                             srcset="images/portfolio/fuji.jpg 1x, images/portfolio/fuji@2x.jpg 2x"  alt="">
-                                    </div>
-                                    
-                                    <div class="folio-list__item-text">
-                                        <div class="folio-list__item-cat">
-                                            Website
-                                        </div>
-                                        <div class="folio-list__item-title">
-                                            Retro Camera.
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="folio-list__proj-link" href="#" title="project link">
-                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                                </a>
-                            </li> <!--end folio-list__item -->
-
-                            <li class="folio-list__item column" data-animate-el>
-                                <a class="folio-list__item-link" href="#modal-02">
-                                    <div class="folio-list__item-pic">
-                                        <img src="images/portfolio/lamp.jpg" 
-                                             srcset="images/portfolio/lamp.jpg 1x, images/portfolio/lamp@2x.jpg 2x" alt="">
-                                    </div>
-                                    
-                                    <div class="folio-list__item-text">
-                                        <div class="folio-list__item-cat">
-                                            Product Design
-                                        </div>
-                                        <div class="folio-list__item-title">
-                                            The White Lamp.
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="folio-list__proj-link" href="#" title="project link">
-                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                                </a>
-                            </li> <!--end folio-list__item -->
-
-                            <li class="folio-list__item column" data-animate-el>
-                                <a class="folio-list__item-link" href="#modal-03">
-                                    <div class="folio-list__item-pic">
-                                        <img src="images/portfolio/rucksack.jpg" 
-                                             srcset="images/portfolio/rucksack.jpg 1x, images/portfolio/rucksack@2x.jpg 2x" alt="">
-                                    </div>
-                                    
-                                    <div class="folio-list__item-text">
-                                        <div class="folio-list__item-cat">
-                                            Branding
-                                        </div>
-                                        <div class="folio-list__item-title">
-                                            Rucksuck.
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="folio-list__proj-link" href="#" title="project link">
-                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                                </a>
-                            </li> <!--end folio-list__item -->
-
-                            <li class="folio-list__item column" data-animate-el>
-                                <a class="folio-list__item-link" href="#modal-04">
-                                    <div class="folio-list__item-pic">
-                                        <img src="images/portfolio/skaterboy.jpg"
-                                             srcset="images/portfolio/skaterboy.jpg 1x, images/portfolio/skaterboy@2x.jpg 2x" alt="">
-                                    </div>
-                                    
-                                    <div class="folio-list__item-text">
-                                        <div class="folio-list__item-cat">
-                                            Website
-                                        </div>
-                                        <div class="folio-list__item-title">
-                                            Since Day One.
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="folio-list__proj-link" href="#" title="project link">
-                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                                </a>
-                            </li> <!--end folio-list__item -->
-
-                            <li class="folio-list__item column" data-animate-el>
-                                <a class="folio-list__item-link" href="#modal-05">
-                                    <div class="folio-list__item-pic">
-                                        <img src="images/portfolio/sanddunes.jpg" 
-                                             srcset="images/portfolio/sanddunes.jpg 1x, images/portfolio/sanddunes@2x.jpg 2x" alt="">
-                                    </div>
-                                    
-                                    <div class="folio-list__item-text">
-                                        <div class="folio-list__item-cat">
-                                            Illustration
-                                        </div>
-                                        <div class="folio-list__item-title">
-                                            Sand Dunes.
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="folio-list__proj-link" href="#" title="project link">
-                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                                </a>
-                            </li> <!--end folio-list__item -->
-
-                            <li class="folio-list__item column" data-animate-el>
-                                <a class="folio-list__item-link" href="#modal-06">
-                                    <div class="folio-list__item-pic">
-                                        <img src="images/portfolio/minimalismo.jpg" 
-                                             srcset="images/portfolio/minimalismo.jpg 1x, images/portfolio/minimalismo@2x.jpg 2x" alt="">
-                                    </div>
-                                    
-                                    <div class="folio-list__item-text">
-                                        <div class="folio-list__item-cat">
-                                            Branding
-                                        </div>
-                                        <div class="folio-list__item-title">
-                                            Minimalismo.
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="folio-list__proj-link" href="#" title="project link">
-                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                                </a>
-                            </li> <!--end folio-list__item -->
-
-                        </ul> <!-- end folio-list -->
-
-                    </div> <!-- end column -->
-
-
-                    <!-- Modal Templates Popup
-                    -------------------------------------------- -->
-                    <div id="modal-01" hidden>
-                        <div class="modal-popup">
-                            <img src="images/portfolio/gallery/g-fuji.jpg" alt="">
-                
-                            <div class="modal-popup__desc">
-                                <h5>Retro Camera</h5>
-                                <p>Odio soluta enim quos sit asperiores rerum rerum repudiandae cum. Vel voluptatem alias qui assumenda iure et expedita voluptatem. Ratione officiis quae.</p>
-                                <ul class="modal-popup__cat">
-                                    <li>Branding</li>
-                                    <li>Product Design</li>
-                                </ul>
-                            </div>
-                
-                            <a href="https://www.behance.net/" class="modal-popup__details">Project link</a>
-                        </div>
-                    </div> <!-- end modal -->
-
-                    <div id="modal-02" hidden>
-                        <div class="modal-popup">
-                            <img src="images/portfolio/gallery/g-lamp.jpg" alt="">
-                
-                            <div class="modal-popup__desc">
-                                <h5>The White Lamp</h5>
-                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.</p>
-                                <ul class="modal-popup__cat">
-                                    <li>Branding</li>
-                                </ul>
-                            </div>
-                
-                            <a href="https://www.behance.net/" class="modal-popup__details">Project link</a>
-                        </div>
-                    </div> <!-- end modal -->
-
-                    <div id="modal-03" hidden>
-                        <div class="modal-popup">
-                            <img src="images/portfolio/gallery/g-rucksack.jpg" alt="">
-                
-                            <div class="modal-popup__desc">
-                                <h5>Rucksuck</h5>
-                                <p>Exercitationem reprehenderit quod explicabo consequatur aliquid ut magni ut. Deleniti quo corrupti illum velit eveniet ratione necessitatibus ipsam mollitia.</p>
-                                <ul class="modal-popup__cat">
-                                    <li>Product Design</li>
-                                </ul>
-                            </div>
-                
-                            <a href="https://www.behance.net/" class="modal-popup__details">Project link</a>
-                        </div>
-                    </div> <!-- end modal -->
-
-                    <div id="modal-04" hidden>
-                        <div class="modal-popup">
-                            <img src="images/portfolio/gallery/g-skaterboy.jpg" alt="">
-                
-                            <div class="modal-popup__desc">
-                                <h5>Since Day One</h5>
-                                <p>Dolores velit qui quos nobis. Aliquam delectus voluptas quos possimus non voluptatem voluptas voluptas. Est doloribus eligendi porro doloribus voluptatum.</p>
-                                <ul class="modal-popup__cat">
-                                    <li>Website</li>
-                                </ul>
-                            </div>
-                
-                            <a href="https://www.behance.net/" class="modal-popup__details">Project link</a>
-                        </div>
-                    </div> <!-- end modal -->
-
-                    <div id="modal-05" hidden>
-                        <div class="modal-popup">
-
-                            <img src="images/portfolio/gallery/g-sanddunes.jpg" alt="">
-                
-                            <div class="modal-popup__desc">
-                                <h5>Sand Dunes</h5>
-                                <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit.</p>
-                                <ul class="modal-popup__cat">
-                                    <li>Illustration</li>
-                                </ul>
-                            </div>
-                
-                            <a href="https://www.behance.net/" class="modal-popup__details">Project link</a>
-                        </div>
-                    </div> <!-- end modal -->
-
-                    <div id="modal-06" hidden>
-                        <div class="modal-popup">
-                            <img src="images/portfolio/gallery/g-minimalismo.jpg" alt="">
-                
-                            <div class="modal-popup__desc">
-                                <h5>Minimalismo</h5>
-                                <p>Quisquam vel libero consequuntur autem voluptas. Qui aut vero. Omnis fugit mollitia cupiditate voluptas. Aenean sollicitudin, lorem quis bibendum auctor.</p>
-                                <ul class="modal-popup__cat">
-                                    <li>Branding</li>
-                                    <li>Product Design</li>
-                                </ul>
-                            </div>
-                
-                            <a href="https://www.behance.net/" class="modal-popup__details">Project link</a>
-                        </div>
-                    </div> <!-- end modal -->
-
-                </div> <!-- end works-portfolio -->
-
-
-                <div class="row testimonials">
-                    <div class="column lg-12" data-animate-block>
-        
-                        <div class="swiper-container testimonial-slider" data-animate-el>
-        
-                            <div class="swiper-wrapper">
-
-                                <div class="testimonial-slider__slide swiper-slide">
-                                    <div class="testimonial-slider__author">
-                                        <img src="images/avatars/user-02.jpg" alt="Author image" class="testimonial-slider__avatar">
-                                        <cite class="testimonial-slider__cite">
-                                            <strong>Tim Cook</strong>
-                                            <span>CEO, Apple</span>
-                                        </cite>
-                                    </div>
-                                    <p>
-                                    Molestiae incidunt consequatur quis ipsa autem nam sit enim magni. Voluptas tempore rem. 
-                                    Explicabo a quaerat sint autem dolore ducimus ut consequatur neque.  Nisi dolores quaerat fuga rem nihil nostrum.
-                                    Laudantium quia consequatur molestias delectus culpa.
-                                    </p>
-                                </div> <!-- end testimonial-slider__slide -->
-                
-                                <div class="testimonial-slider__slide swiper-slide">
-                                    <div class="testimonial-slider__author">
-                                        <img src="images/avatars/user-03.jpg" alt="Author image" class="testimonial-slider__avatar">
-                                        <cite class="testimonial-slider__cite">
-                                            <strong>Sundar Pichai</strong>
-                                            <span>CEO, Google</span>
-                                        </cite>
-                                    </div>
-                                    <p>
-                                    Excepturi nam cupiditate culpa doloremque deleniti repellat. Veniam quos repellat voluptas animi adipisci.
-                                    Nisi eaque consequatur. Voluptatem dignissimos ut ducimus accusantium perspiciatis.
-                                    Quasi voluptas eius distinctio. Atque eos maxime.
-                                    </p>
-                                </div> <!-- end testimonial-slider__slide -->
-                
-                                <div class="testimonial-slider__slide swiper-slide">
-                                    <div class="testimonial-slider__author">
-                                        <img src="images/avatars/user-01.jpg" alt="Author image" class="testimonial-slider__avatar">
-                                        <cite class="testimonial-slider__cite">
-                                            <strong>Satya Nadella</strong>
-                                            <span>CEO, Microsoft</span>
-                                        </cite>
-                                    </div>
-                                    <p>
-                                    Repellat dignissimos libero. Qui sed at corrupti expedita voluptas odit. Nihil ea quia nesciunt. Ducimus aut sed ipsam.  
-                                    Autem eaque officia cum exercitationem sunt voluptatum accusamus. Quasi voluptas eius distinctio.
-                                    Voluptatem dignissimos ut.
-                                    </p>
-                                </div> <!-- end testimonial-slider__slide -->
-        
-                                <div class="testimonial-slider__slide swiper-slide">
-                                    <div class="testimonial-slider__author">
-                                        <img src="images/avatars/user-06.jpg" alt="Author image" class="testimonial-slider__avatar">
-                                        <cite class="testimonial-slider__cite">
-                                            <strong>Jeff Bezos</strong>
-                                            <span>CEO, Amazon</span>
-                                        </cite>
-                                    </div>
-                                    <p>
-                                    Nunc interdum lacus sit amet orci. Vestibulum dapibus nunc ac augue. Fusce vel dui. In ac felis 
-                                    quis tortor malesuada pretium. Curabitur vestibulum aliquam leo. Qui sed at corrupti expedita voluptas odit. 
-                                    Nihil ea quia nesciunt. Ducimus aut sed ipsam.
-                                    </p>
-                                </div> <!-- end testimonial-slider__slide -->
-            
-                            </div> <!-- end swiper-wrapper -->
-        
-                            <div class="swiper-pagination"></div>
-        
-                        </div> <!-- end swiper-container -->
-        
-                    </div> <!-- end column -->
-                </div> <!-- end row testimonials -->
-
-            </section> <!-- end s-works -->
-
-
-            <!-- ### contact
-            ================================================== -->
-            <section id="contact" class="s-contact target-section">
-
-                <div class="row contact-top">
-                    <div class="column lg-12">
-                        <h2 class="text-pretitle">
-                            Get In Touch
-                        </h2>
-
-                        <p class="h1">
-                            I love to hear from you.
-                            Whether you have a question or just 
-                            want to chat about design, tech & art — shoot me a message.
-                        </p>
-                    </div>
-                </div> <!-- end contact-top -->
-
-                <div class="row contact-bottom">
-                    <div class="column lg-3 md-5 tab-6 stack-on-550 contact-block">
-                        <h3 class="text-pretitle">Reach me at</h3>
-                        <p class="contact-links">
-                            <a href="mailto:" class="mailtoui">sayhello@luther.com</a> <br>
-                            <a href="tel:+1975432345">+197 543 2345</a>
-                        </p>
-                    </div>
-                    <div class="column lg-4 md-5 tab-6 stack-on-550 contact-block">
-                        <h3 class="text-pretitle">Social</h3>
-                        <ul class="contact-social">
-                            <li><a href="#0">Behance</a></li>
-                            <li><a href="#0">Dribble</a></li>
-                            <li><a href="#0">Twitter</a></li>
-                            <li><a href="#0">Instagram</a></li>
-                            <li><a href="#0">Github</a></li>
-                        </ul>
-                    </div>
-                    <div class="column lg-4 md-12 contact-block">
-                        <a href="mailto:sayhello@luther.com" class="mailtoui btn btn--medium u-fullwidth contact-btn">Say Hello.</a>
-                    </div>
-                </div> <!-- end contact-bottom -->
-
-            </section> <!-- end contact -->
-
-        </main> <!-- end s-content -->
-
-
-        <!-- ## footer
-        ================================================== -->
-        <footer class="s-footer">
-
-            <div class="row">
-                <div class="column ss-copyright">
-                    <span>© Copyright MISA TECHNOLGY 2025</span> 
-                    <span>Design by <a href="https://www.styleshout.com/">StyleShout</a> Distribution By <a href="https://themewagon.com">Themewagon</a></span>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+        <div class="container">
+            <h2 class="section-title fade-in">Professional Skills</h2>
+            <p class="section-subtitle fade-in">Expertise in modern technologies and development practices</p>
+            <div class="skills-grid">
+                <div class="skill-card zoom-in">
+                    <div class="skill-icon">🚗</div>
+                    <h3 class="skill-title">Full-Stack Development</h3>
+                    <p class="skill-description">Expert in React, Node.js, Python, and modern web technologies with 7+ years of experience building scalable applications</p>
                 </div>
-
-                <div class="ss-go-top">
-                    <a class="smoothscroll" title="Back to Top" href="#top">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill-rule="evenodd" clip-rule="evenodd"><path d="M11 2.206l-6.235 7.528-.765-.645 7.521-9 7.479 9-.764.646-6.236-7.53v21.884h-1v-21.883z"/></svg>
-                    </a>
+                <div class="skill-card zoom-in">
+                    <div class="skill-icon">🎨</div>
+                    <h3 class="skill-title">UI/UX Design</h3>
+                    <p class="skill-description">Creating beautiful, intuitive interfaces with advanced design systems and user-centered design principles</p>
+                </div>
+                <div class="skill-card zoom-in">
+                    <div class="skill-icon">📱</div>
+                    <h3 class="skill-title">Mobile Development</h3>
+                    <p class="skill-description">Building cross-platform mobile apps with React Native and Flutter, delivering native performance</p>
+                </div>
+                <div class="skill-card zoom-in">
+                    <div class="skill-icon">☁️</div>
+                    <h3 class="skill-title">Cloud Architecture</h3>
+                    <p class="skill-description">Designing and implementing scalable cloud solutions using AWS, Azure, and modern DevOps practices</p>
+                </div>
+                <div class="skill-card zoom-in">
+                    <div class="skill-icon">🤖</div>
+                    <h3 class="skill-title">AI & Machine Learning</h3>
+                    <p class="skill-description">Integrating AI solutions and machine learning models into web applications for intelligent user experiences</p>
+                </div>
+                <div class="skill-card zoom-in">
+                    <div class="skill-icon">🔒</div>
+                    <h3 class="skill-title">Cybersecurity</h3>
+                    <p class="skill-description">Implementing robust security measures and best practices to protect applications and user data</p>
                 </div>
             </div>
+        </div>
+    </section>
 
-        </footer> <!-- end s-footer -->
+    <!-- Projects Section -->
+    <section class="section" id="projects">
+        <div class="container">
+            <h2 class="section-title fade-in">Featured Projects</h2>
+            <p class="section-subtitle fade-in">Innovative solutions that make a difference</p>
+            <div class="projects-grid">
+                <div class="project-card zoom-in">
+<img class="project-canvas" src="اسم-الصورة.jpg" alt="Project Image">
 
-    </div> <!-- end -s-pagewrap -->
+                    <div class="project-content">
+                        <h3 class="project-title">E-Commerce Platform</h3>
+                        <p class="project-description">A full-featured online shopping platform with modern UI and robust backend</p>
+                        <a href="#" class="project-view-btn">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card zoom-in">
+<img class="project-canvas" src="اسم-الصورة.jpg" alt="Project Image">
+
+                        <h3 class="project-title">Health & Fitness App</h3>
+                        <p class="project-description">Mobile application for tracking health metrics with beautiful data visualizations</p>
+                        <a href="#" class="project-view-btn">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card zoom-in">
+<img class="project-canvas" src="اسم-الصورة.jpg" alt="Project Image">
+
+                        <h3 class="project-title">AI Content Generator</h3>
+                        <p class="project-description">Web application leveraging AI to generate creative content for marketing</p>
+                        <a href="#" class="project-view-btn">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">About Me</h2>
+            <p class="section-subtitle fade-in">Get to know my journey and passion</p>
+            <div class="about-content">
+                <img class="about-canvas" src="Screenshot 2025-03-13 024330.png" alt="About Me Photo">
+
+                <div class="about-text fade-in">
+                    <h3>Who I Am</h3>
+                    <p>I'm a passionate developer with over 7 years of experience in creating digital solutions that solve real-world problems. My journey in tech began with a deep curiosity about how things work, which evolved into a career designing and building sophisticated software systems.</p>
+                    <p>I specialize in full-stack development, with expertise in modern JavaScript frameworks, mobile application development, and cloud infrastructure. I believe in writing clean, maintainable code and creating intuitive user experiences.</p>
+                    <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge through tech workshops and mentoring.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section" id="experience">
+        <div class="container">
+            <h2 class="section-title fade-in">My Experience</h2>
+            <p class="section-subtitle fade-in">A journey through my professional milestones</p>
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2021 - Present</div>
+                        <h3 class="timeline-title">Senior Developer at TechInnovate</h3>
+                        <p class="timeline-description">Leading the development of enterprise-level applications, mentoring junior developers, and implementing modern development practices.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2018 - 2021</div>
+                        <h3 class="timeline-title">Full Stack Developer at CodeCraft</h3>
+                        <p class="timeline-description">Developed responsive web applications and mobile apps for clients across various industries, focusing on performance and user experience.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2016 - 2018</div>
+                        <h3 class="timeline-title">Junior Developer at WebSolutions</h3>
+                        <p class="timeline-description">Collaborated with team to build and maintain web applications, implemented UI designs, and participated in code reviews.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title fade-in">Get In Touch</h2>
+            <p class="section-subtitle fade-in">Let's create something amazing together</p>
+            <form class="contact-form fade-in">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="social-links fade-in">
+    <a href="https://github.com/USERNAME" class="social-link" title="GitHub" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="30" alt="GitHub"></a>
+    <a href="https://instagram.com/USERNAME" class="social-link" title="Instagram" target="_blank"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/instagram-new.png" alt="Instagram"></a>
+    <a href="https://facebook.com/USERNAME" class="social-link" title="Facebook" target="_blank"><img src="https://img.icons8.com/ios-filled/30/ffffff/facebook-new.png" alt="Facebook"></a>
+    <a href="mailto:EMAIL@EXAMPLE.com" class="social-link" title="Email"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/email.png" alt="Email"></a>
+</div>
+
+        <p>© 2025 Mina | All Rights Reserved</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingProgress = loadingScreen.querySelector('.loading-progress');
+            loadingProgress.style.width = '100%';
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 3000);
+        });
+
+        
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.addEventListener('copy', event => event.preventDefault());
+    document.addEventListener('cut', event => event.preventDefault());
+    document.addEventListener('selectstart', event => event.preventDefault());
 
 
-    <!-- Java Script
-    ================================================== -->
-    <script src="js/plugins.js"></script>
-    <script src="js/main.js"></script>
 
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const cursorFollower = document.getElementById('cursorFollower');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX - 10, y: e.clientY - 10, duration: 0.1 });
+            gsap.to(cursorFollower, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.3 });
+        });
+
+        document.querySelectorAll('a, button, .skill-card, .project-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+        });
+
+        // Scroll Animations
+        gsap.registerPlugin(ScrollTrigger);
+        document.querySelectorAll('.fade-in, .zoom-in').forEach(el => {
+            gsap.fromTo(el, 
+                { opacity: 0, y: 50, scale: el.classList.contains('zoom-in') ? 0.8 : 1 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // Navbar Scroll
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const navbar = document.getElementById('navbar');
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // 3D Hero Background
+        const heroCanvas = document.getElementById('heroCanvas');
+        const heroScene = new THREE.Scene();
+        const heroCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const heroRenderer = new THREE.WebGLRenderer({ canvas: heroCanvas, alpha: true });
+        heroRenderer.setSize(window.innerWidth, window.innerHeight);
+        heroCamera.position.z = 5;
+
+        const heroGeometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
+        const heroMaterial = new THREE.MeshStandardMaterial({
+            color: 0x00d4ff,
+            metalness: 0.7,
+            roughness: 0.2,
+            wireframe: true
+        });
+        const heroMesh = new THREE.Mesh(heroGeometry, heroMaterial);
+        heroScene.add(heroMesh);
+
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(5, 5, 5);
+        heroScene.add(pointLight);
+        heroScene.add(new THREE.AmbientLight(0x404040));
+
+        function animateHero() {
+            requestAnimationFrame(animateHero);
+            heroMesh.rotation.x += 0.01;
+            heroMesh.rotation.y += 0.01;
+            heroRenderer.render(heroScene, heroCamera);
+        }
+        animateHero();
+
+        window.addEventListener('resize', () => {
+            heroCamera.aspect = window.innerWidth / window.innerHeight;
+            heroCamera.updateProjectionMatrix();
+            heroRenderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        
+
+        // 3D Project Cards
+        document.querySelectorAll('.project-canvas').forEach(canvas => {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            camera.position.z = 5;
+
+            let geometry;
+            const projectType = canvas.dataset.project;
+            if (projectType === 'ecommerce') {
+                geometry = new THREE.BoxGeometry(2, 2, 2);
+            } else if (projectType === 'health') {
+                geometry = new THREE.SphereGeometry(1.5, 32, 32);
+            } else {
+                geometry = new THREE.ConeGeometry(1.5, 3, 32);
+            }
+
+            const material = new THREE.MeshPhysicalMaterial({
+                color: 0x8338ec,
+                metalness: 0.5,
+                roughness: 0.3,
+                clearcoat: 1.0
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const pointLight = new THREE.PointLight(0xffffff, 1);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+            scene.add(new THREE.AmbientLight(0x404040));
+
+            function animateProject() {
+                requestAnimationFrame(animateProject);
+                mesh.rotation.x += 0.02;
+                mesh.rotation.y += 0.02;
+                renderer.render(scene, camera);
+            }
+            animateProject();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = canvas.clientWidth / canvas.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            });
+        });
+
+        // 3D About Section
+        const aboutCanvas = document.getElementById('aboutCanvas');
+        const aboutScene = new THREE.Scene();
+        const aboutCamera = new THREE.PerspectiveCamera(75, aboutCanvas.clientWidth / aboutCanvas.clientHeight, 0.1, 1000);
+        const aboutRenderer = new THREE.WebGLRenderer({ canvas: aboutCanvas, alpha: true });
+        aboutRenderer.setSize(aboutCanvas.clientWidth, aboutCanvas.clientHeight);
+        aboutCamera.position.z = 5;
+
+        const aboutGeometry = new THREE.IcosahedronGeometry(2);
+        const aboutMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xff006e,
+            metalness: 0.6,
+            roughness: 0.4,
+            clearcoat: 0.8
+        });
+        const aboutMesh = new THREE.Mesh(aboutGeometry, aboutMaterial);
+        aboutScene.add(aboutMesh);
+
+        const aboutLight = new THREE.PointLight(0xffffff, 1);
+        aboutLight.position.set(5, 5, 5);
+        aboutScene.add(aboutLight);
+        aboutScene.add(new THREE.AmbientLight(0x404040));
+
+        function animateAbout() {
+            requestAnimationFrame(animateAbout);
+            aboutMesh.rotation.x += 0.01;
+            aboutMesh.rotation.y += 0.01;
+            aboutRenderer.render(aboutScene, aboutCamera);
+        }
+        animateAbout();
+
+        window.addEventListener('resize', () => {
+            aboutCamera.aspect = aboutCanvas.clientWidth / aboutCanvas.clientHeight;
+            aboutCamera.updateProjectionMatrix();
+            aboutRenderer.setSize(aboutCanvas.clientWidth, aboutCanvas.clientHeight);
+        });
+    </script>
 </body>
 </html>

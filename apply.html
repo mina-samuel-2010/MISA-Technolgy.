@@ -3,78 +3,1062 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply</title>
-    <link rel="stylesheet" href="css/vendor.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Apply | Professional Services Application</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
+    <style>
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #ff006e;
+            --accent-color: #8338ec;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(15, 15, 15, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --gradient-1: linear-gradient(135deg, #00d4ff, #8338ec);
+            --gradient-2: linear-gradient(135deg, #ff006e, #8338ec);
+            --gradient-3: linear-gradient(135deg, #00d4ff, #ff006e);
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Background Animation */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 0, 110, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(131, 56, 236, 0.1) 0%, transparent 50%);
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 30%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(20px) rotate(240deg); }
+        }
+
+        /* Header */
+        .header {
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 4rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-description {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .required {
+            color: var(--secondary-color);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Radio Buttons */
+        .radio-group {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .radio-item {
+            position: relative;
+        }
+
+        .radio-input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .radio-label:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary-color);
+        }
+
+        .radio-input:checked + .radio-label {
+            background: var(--gradient-1);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            margin-right: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .radio-input:checked + .radio-label .radio-custom {
+            border-color: white;
+            background: white;
+        }
+
+        .radio-input:checked + .radio-label .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Budget Description */
+        .budget-description {
+            margin-top: 0.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border-left: 3px solid var(--primary-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .budget-description.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Urgent Warning */
+        .urgent-warning {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning-color);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: var(--warning-color);
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .urgent-warning.show {
+            display: block;
+        }
+
+        /* Star Rating */
+        .rating-container {
+            margin-top: 1rem;
+        }
+
+        .rating-group {
+            margin-bottom: 2rem;
+        }
+
+        .rating-label {
+            display: block;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .star {
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 30px;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #fbbf24;
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5));
+        }
+
+        .star:hover ~ .star {
+            color: rgba(255, 255, 255, 0.3);
+            transform: scale(1);
+        }
+
+        /* Submit Button */
+        .submit-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .submit-btn {
+            background: var(--gradient-1);
+            color: white;
+            padding: 1.5rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 200px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-2);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .submit-btn:hover::before {
+            left: 0;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success-color);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--success-color);
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-title {
+                font-size: 2rem;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+
+            .star-rating {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .star {
+                width: 30px;
+                height: 30px;
+                font-size: 25px;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 1.2rem 2rem;
+            }
+        }
+        /* Back to Home Button */
+.back-home {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: var(--gradient-3);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 10000;
+}
+.back-home svg {
+  width: 26px;
+  height: 26px;
+}
+.back-home:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 14px 35px rgba(0,0,0,0.6);
+}
+.back-home:active {
+  transform: scale(0.95);
+}
+
+    </style>
 </head>
 <body>
+    <div class="animated-bg"></div>
+    <div class="floating-shapes">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
 
-    <div class="s-pagewrap">
-        <header class="s-header">
-            <div class="header-mobile">
-                <span class="mobile-home-link"><a href="index.html">MISA Technology</a></span>
-            </div>
-        </header>
-        <main class="s-content">
-            <section class="s-login target-section">
-                <div class="row login-content wide">
-                    <div class="column">
-                        <h2 class="text-pretitle with-line">Apply</h2>
-                           
-                            
-                            
-    
-    <form action="#" method="POST" class="login-form">
-        <div class="form-group">
-            <label for="name">Name / الاسم:</label>
-            <input type="text" id="name" name="name" class="form-input" required>
+    <!-- Back to Home Floating Button -->
+<a href="index.html" class="back-home" aria-label="Back to Home">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M3 12l9-9 9 9h-3v9h-12v-9h-3z"/>
+  </svg>
+</a>
+
+
+    <div class="header">
+        <div class="logo">APPLY</div>
+        <p class="header-subtitle">Professional Services Application Form</p>
+    </div>
+
+    <div class="container">
+        <div class="form-container">
+            <h1 class="form-title">Apply for Services</h1>
+            <p class="form-description">
+                Tell us about your project requirements and let's create something amazing together. 
+                Fill out this form to get started with our professional services.
+            </p>
+
+            <form id="applicationForm">
+                <!-- Full Name (Required) -->
+                <div class="form-group">
+                    <label class="form-label" for="fullName">
+                        Full Name <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
+                        class="form-input" 
+                        placeholder="Enter your full name"
+                        required
+                    >
+                </div>
+
+                <!-- Company Name (Optional) -->
+                <div class="form-group">
+                    <label class="form-label" for="companyName">
+                        Company Name
+                    </label>
+                    <input 
+                        type="text" 
+                        id="companyName" 
+                        name="companyName" 
+                        class="form-input" 
+                        placeholder="Enter your company name (optional)"
+                    >
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" for="email">
+                        Email Address <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="Enter your email address"
+                        required
+                    >
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label class="form-label" for="phone">
+                        Phone Number <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        class="form-input" 
+                        placeholder="Enter your phone number"
+                        required
+                    >
+                </div>
+
+                <!-- Project Type -->
+                <div class="form-group">
+                    <label class="form-label">
+                        What type of website do you need? <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="personal" name="projectType" value="Personal Website" class="radio-input" required>
+                            <label for="personal" class="radio-label">
+                                <div class="radio-custom"></div>
+                                Personal Website
+                            </label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="company" name="projectType" value="Company Website" class="radio-input">
+                            <label for="company" class="radio-label">
+                                <div class="radio-custom"></div>
+                                Company Website
+                            </label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="brand" name="projectType" value="Brand Website" class="radio-input">
+                            <label for="brand" class="radio-label">
+                                <div class="radio-custom"></div>
+                                Brand Website
+                            </label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="ecommerce" name="projectType" value="E-commerce" class="radio-input">
+                            <label for="ecommerce" class="radio-label">
+                                <div class="radio-custom"></div>
+                                E-commerce Store
+                            </label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="portfolio" name="projectType" value="Portfolio" class="radio-input">
+                            <label for="portfolio" class="radio-label">
+                                <div class="radio-custom"></div>
+                                Portfolio Website
+                            </label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="other" name="projectType" value="Other" class="radio-input">
+                            <label for="other" class="radio-label">
+                                <div class="radio-custom"></div>
+                                Other
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Description -->
+                <div class="form-group">
+                    <label class="form-label" for="projectDescription">
+                        Project Description <span class="required">*</span>
+                    </label>
+                    <textarea 
+                        id="projectDescription" 
+                        name="projectDescription" 
+                        class="form-input" 
+                        placeholder="Please describe your project requirements, goals, and any specific features you need..."
+                        required
+                    ></textarea>
+                </div>
+
+                <!-- Budget Range -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Budget Range <span class="required">*</span>
+                    </label>
+                    <div class="radio-group" id="budgetOptions">
+                        <!-- Budget options will be dynamically updated based on project type -->
+                    </div>
+                    <div id="budgetDescription" class="budget-description">
+                        <!-- Budget description will be dynamically updated -->
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Project Timeline <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="urgent" name="timeline" value="ASAP (Rush Job)" class="radio-input" required>
+                            <label for="urgent" class="radio-label">
+                                <div class="radio-custom"></div>
+                                ASAP (Rush Job)
+                            </label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="flexible" name="timeline" value="Flexible timeline" class="radio-input">
+                            <label for="flexible" class="radio-label">
+                                <div class="radio-custom"></div>
+                                Flexible timeline
+                            </label>
+                        </div>
+                    </div>
+                    <div id="urgentWarning" class="urgent-warning">
+                        ⚡ سيتم إضافة 500 جنيه إضافية للخدمة العاجلة
+                    </div>
+                </div>
+
+                <!-- Star Ratings -->
+                <div class="rating-container">
+                    <h3 style="margin-bottom: 2rem; font-size: 1.3rem; color: var(--primary-color);">Rate Your Priorities</h3>
+                    
+                    <div class="rating-group">
+                        <div class="rating-label">Design Quality Importance</div>
+                        <div class="star-rating" data-rating="design">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <input type="hidden" name="designRating" id="designRating">
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-label">Functionality Importance</div>
+                        <div class="star-rating" data-rating="functionality">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <input type="hidden" name="functionalityRating" id="functionalityRating">
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-label">SEO Optimization Importance</div>
+                        <div class="star-rating" data-rating="seo">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <input type="hidden" name="seoRating" id="seoRating">
+                    </div>
+
+                    <div class="rating-group">
+                        <div class="rating-label">Mobile Responsiveness Importance</div>
+                        <div class="star-rating" data-rating="mobile">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <input type="hidden" name="mobileRating" id="mobileRating">
+                    </div>
+                </div>
+
+                <!-- Additional Comments -->
+                <div class="form-group">
+                    <label class="form-label" for="comments">
+                        Additional Comments or Special Requirements
+                    </label>
+                    <textarea 
+                        id="comments" 
+                        name="comments" 
+                        class="form-input" 
+                        placeholder="Any additional information, special requirements, or questions you'd like to share..."
+                    ></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="submit-container">
+                    <button type="submit" class="submit-btn">
+                        Submit Application
+                    </button>
+                </div>
+
+                <!-- Success Message -->
+                <div class="success-message" id="successMessage">
+                    <h3>Application Submitted Successfully!</h3>
+                    <p>Thank you for your application. We'll review your requirements and get back to you within 24 hours.</p>
+                </div>
+            </form>
         </div>
+    </div>
+
     
-        <div class="form-group">
-            <label for="service">What service can I help you with? / ما هي الخدمة التي يمكنك مساعدتك بها؟</label>
-            <select id="service" name="service" class="form-input">
-                <option value="software_code">Software code / كود برمجي</option>
-                <option value="application">Application / تطبيق</option>
-                <option value="website">Website / موقع إلكتروني</option>
-                <option value="photo_edit">Editing an image or making a photo / تعديل على صورة أو عمل صورة</option>
-                <option value="video_edit">Editing a video or making a video / تعديل على فيديو أو عمل فيديو</option>
-                <option value="voice_edit">Modify the voice / تعديل على صوت</option>
-            </select>
-        </div>
+
+    <script>
+        // Your Basin form endpoint
+        const BASIN_FORM_ENDPOINT = 'https://usebasin.com/f/86b8840a1934';
+        // Thank you page URL
+        const THANK_YOU_PAGE = 'thank-you.html'; // Replace with your actual thank you page URL
+
+        // Budget options based on project type
+        const budgetOptions = {
+            'Personal Website': [
+                { value: '500-1000', label: '1550 EGP+', description: 'A very simple website that includes your personal email and your social media links' },
+                { value: '1000-1500', label: '1899 EGP+', description: 'A more professional website than the previous one, which includes your picture, your name, a background of your choice, and your social media links' },
+                { value: '1500-2000', label: '2299 EGP+', description: 'This is a more professional website that includes all the features you want, you can customize anything according to your preference, and it includes a detailed description of you, your dedicated social media links, you can choose the background you want with the colors you prefer, and it will be a complete, integrated website under your full control' }
+            ],
+            'Company Website': [
+                { value: '500-1000', label: '1550 EGP+', description: 'A very simple website that includes the company emails and the company social media links' },
+                { value: '1000-1500', label: '1899 EGP+', description: 'A more professional website than the previous one, which includes company photos (up to 3 photos), the company name, a background of your choice, and the company social media links' },
+                { value: '1500-2000', label: '2299 EGP+', description: 'This is a more professional website that includes all the features you want, you can customize anything according to your preference, and it includes a detailed description of the company, your dedicated social media links, you can choose the background you want with the colors you prefer, and it will be a complete, integrated website under your control where you can do anything on the site' }
+            ],
+            'Brand Website': [
+                { value: '1000-3000', label: '1899 EGP+', description: 'Professional brand website with custom design' },
+                { value: '3000-5000', label: '2299 EGP+', description: 'Advanced brand website with additional features' },
+                { value: '5000-10000', label: '2699 EGP+', description: 'Complete brand website with all required features' }
+            ],
+            'E-commerce': [
+                { value: '3000-5000', label: '1899 EGP+', description: 'Basic e-commerce store with a limited number of products' },
+                { value: '5000-10000', label: '2299 EGP+', description: 'Advanced e-commerce store with payment and delivery system' },
+                { value: '10000+', label: '2699 EGP+', description: 'Complete e-commerce store with all advanced features' }
+            ],
+            'Portfolio': [
+                { value: '500-1000', label: '1550 EGP+', description: 'Basic portfolio website' },
+                { value: '1000-3000', label: '1899 EGP+', description: 'Professional portfolio website' },
+                { value: '3000-5000', label: '2299 EGP+', description: 'Premium portfolio website' }
+            ],
+            'Other': [
+                { value: 'custom', label: 'Custom Budget', description: 'The budget will be determined based on your specific requirements' }
+            ]
+        };
+
+
+
+        
+
+        // Default budget options (for other project types)
+        const defaultBudgetOptions = [
+            { value: 'Under 1550 EGP', label: 'Under 1550 EGP' },
+            { value: '1899 EGP', label: '1899 EGP' },
+            { value: '2299 EGP', label: '2299 EGP' },
+            { value: '2699 EGP', label: '2699 EGP' },
+            { value: '2699 EGP+', label: '2699 EGP+' }
+        ];
+
+        // Function to update budget options based on selected project type
+        function updateBudgetOptions(projectType) {
+            const budgetContainer = document.getElementById('budgetOptions');
+            const budgetDescription = document.getElementById('budgetDescription');
+            
+            // Clear existing options
+            budgetContainer.innerHTML = '';
+            budgetDescription.innerHTML = '';
+            budgetDescription.classList.remove('show');
+            
+            // Get the appropriate budget options
+            const options = budgetOptions[projectType] || defaultBudgetOptions;
+            
+            // Create new radio options
+            options.forEach((option, index) => {
+                const radioItem = document.createElement('div');
+                radioItem.className = 'radio-item';
+                
+                const radioId = `budget${index + 1}`;
+                
+                radioItem.innerHTML = `
+                    <input type="radio" id="${radioId}" name="budget" value="${option.value}" class="radio-input" ${index === 0 ? 'required' : ''}>
+                    <label for="${radioId}" class="radio-label">
+                        <div class="radio-custom"></div>
+                        ${option.label}
+                    </label>
+                `;
+                
+                // Add event listener to show description when selected
+                const radioInput = radioItem.querySelector('input');
+                radioInput.addEventListener('change', () => {
+                    if (option.description) {
+                        budgetDescription.textContent = option.description;
+                        budgetDescription.classList.add('show');
+                    } else {
+                        budgetDescription.classList.remove('show');
+                    }
+                });
+                
+                budgetContainer.appendChild(radioItem);
+            });
+        }
+
+        // Add floating animation to form container
+const formContainer = document.querySelector('.form-container');
+let mouseX = 0, mouseY = 0;
+let currentX = 0, currentY = 0;
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - window.innerWidth / 2) * 0.01;
+    mouseY = (e.clientY - window.innerHeight / 2) * 0.01;
+});
+
+function animate() {
+    currentX += (mouseX - currentX) * 0.1;
+    currentY += (mouseY - currentY) * 0.1;
     
-        <div class="form-group">
-            <label for="phone">Phone Number / رقم الهاتف:</label>
-            <input type="tel" id="phone" name="phone" class="form-input" pattern="01[0-9]{9}" required placeholder="01XXXXXXXXX">
-        </div>
-    
-        <div class="form-group">
-            <label for="email">Email / البريد الإلكتروني:</label>
-            <input type="email" id="email" name="email" class="form-input" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" required>
-        </div>
-    
-        <div class="form-group">
-            <label for="notes">Any notes? / هل يوجد أي ملاحظات؟</label>
-            <textarea id="notes" name="notes" class="form-input"></textarea>
-        </div>
-    
-        <div class="form-group">
-            <label for="rating">Rate us from 5 stars / قيمنا من 5 نجوم:</label>
-            <div class="star-rating">
-                <span class="star" data-value="1">&#9733;</span>
-                <span class="star" data-value="2">&#9733;</span>
-                <span class="star" data-value="3">&#9733;</span>
-                <span class="star" data-value="4">&#9733;</span>
-                <span class="star" data-value="5">&#9733;</span>
-            </div>
-            <input type="hidden" id="rating" name="rating" value="0">
-        </div>
-    
-        <button type="submit" class="btn btn--medium u-fullwidth">Submit / إرسال</button>
-    </form>
-</div>
-</div>
-</section>
-</main>
-</div>
+    formContainer.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+    // Apply same effect to back-home button
+    const backBtn = document.querySelector('.back-home');
+    if (backBtn) {
+        backBtn.style.transform = `translate3d(${currentX * 2}px, ${currentY * 2}px, 0)`;  
+    }
+
+    requestAnimationFrame(animate);
+}
+animate();
+
+
+        // Function to handle timeline selection warnings
+        function setupTimelineWarning() {
+            const urgentOption = document.getElementById('urgent');
+            const urgentWarning = document.getElementById('urgentWarning');
+            const timelineOptions = document.querySelectorAll('input[name="timeline"]');
+            
+            urgentOption.addEventListener('change', function() {
+                if (this.checked) {
+                    urgentWarning.classList.add('show');
+                } else {
+                    urgentWarning.classList.remove('show');
+                }
+            });
+            
+            // Hide warning when other options are selected
+            timelineOptions.forEach(option => {
+                if (option.id !== 'urgent') {
+                    option.addEventListener('change', function() {
+                        urgentWarning.classList.remove('show');
+                    });
+                }
+            });
+        }
+
+        // Initialize budget options when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners for project type changes
+            document.querySelectorAll('input[name="projectType"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    updateBudgetOptions(e.target.value);
+                });
+            });
+            
+            // Setup timeline warning
+            setupTimelineWarning();
+            
+            // Initialize with default budget options
+            updateBudgetOptions('Personal Website');
+        });
+
+        // Star Rating Functionality
+        document.querySelectorAll('.star-rating').forEach(ratingContainer => {
+            const stars = ratingContainer.querySelectorAll('.star');
+            const ratingType = ratingContainer.dataset.rating;
+            const hiddenInput = document.getElementById(ratingType + 'Rating');
+
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    const rating = index + 1;
+                    hiddenInput.value = rating;
+                    
+                    // Update star display
+                    stars.forEach((s, i) => {
+                        s.classList.toggle('active', i < rating);
+                    });
+                });
+
+                star.addEventListener('mouseenter', () => {
+                    stars.forEach((s, i) => {
+                        s.classList.toggle('active', i <= index);
+                    });
+                });
+            });
+
+            ratingContainer.addEventListener('mouseleave', () => {
+                const currentRating = hiddenInput.value;
+                stars.forEach((s, i) => {
+                    s.classList.toggle('active', i < currentRating);
+                });
+            });
+        });
+
+        // Function to submit form to Basin
+        async function submitToBasin(formData) {
+            try {
+                const response = await fetch(BASIN_FORM_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    return { success: true };
+                } else {
+                    const errorData = await response.json();
+                    return { 
+                        success: false, 
+                        error: errorData.message || 'Failed to submit form' 
+                    };
+                }
+            } catch (error) {
+                return { 
+                    success: false, 
+                    error: 'Network error. Please try again.' 
+                };
+            }
+        }
+
+        // Form Submission
+        document.getElementById('applicationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            // Validate required fields
+            const requiredFields = ['fullName', 'email', 'phone', 'projectType', 'projectDescription', 'budget'];
+            const missingFields = requiredFields.filter(field => !data[field]);
+            
+            if (missingFields.length > 0) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Prepare data for Basin
+            const basinData = {
+                'Full Name': data.fullName,
+                'Company Name': data.companyName || 'Not provided',
+                'Email': data.email,
+                'Phone': data.phone,
+                'Project Type': data.projectType,
+                'Project Description': data.projectDescription,
+                'Budget': data.budget,
+                'Timeline': data.timeline || 'Not specified',
+                'Design Rating': data.designRating || 'Not rated',
+                'Functionality Rating': data.functionalityRating || 'Not rated',
+                'SEO Rating': data.seoRating || 'Not rated',
+                'Mobile Rating': data.mobileRating || 'Not rated',
+                'Additional Comments': data.comments || 'None'
+            };
+
+            // Simulate form submission
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+
+            try {
+                // Submit to Basin
+                const result = await submitToBasin(basinData);
+                
+                if (result.success) {
+                    // Show success message
+                    document.getElementById('successMessage').classList.add('show');
+                    
+                    // Redirect to thank you page after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = THANK_YOU_PAGE;
+                    }, 3000);
+                } else {
+                    alert('Error submitting form: ' + result.error);
+                    submitBtn.textContent = 'Submit Application';
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                alert('An unexpected error occurred. Please try again.');
+                submitBtn.textContent = 'Submit Application';
+                submitBtn.disabled = false;
+            }
+        });
+
+    </script>
 </body>
 </html>

@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mina | Ultra Professional Developer</title>
+    <title>Mina | Web Programmer & App Developer</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
-    <script defer data-domain="mina-samuel-2010.github.io/misa-technolgy." src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"></script>
-<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
-
+    <script defer data-domain="mina-samuel-2010.github.io/misa-technolgy." src="https://plausible.io/js/script.js"></script>
     <style>
         body {
     cursor: none;
@@ -825,6 +823,29 @@
             opacity: 1;
             transform: scale(1);
         }
+
+        /* Promo modal styles (matches site aesthetic) */
+.promo-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 20000; }
+.promo-modal.active { display: flex; }
+.promo-backdrop { position: absolute; inset: 0; background: rgba(10,10,10,0.7); backdrop-filter: blur(6px); }
+.promo-card {
+  position: relative;
+  width: min(720px, 92%);
+  max-width: 720px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 2.2rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  z-index: 20001;
+  color: var(--text-primary);
+}
+.promo-card h2 { font-size: 1.6rem; margin-bottom: 0.6rem; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.promo-text { color: var(--text-secondary); font-size: 1rem; line-height: 1.6; margin-bottom: 1.6rem; }
+.promo-actions { display:flex; gap:1rem; justify-content:flex-end; }
+.promo-close { position:absolute; top:10px; right:12px; background:transparent; border:none; color:var(--text-secondary); font-size:1.6rem; cursor:pointer; }
+@media (max-width:600px){ .promo-card{ padding:1.2rem; } .promo-actions{ flex-direction:column-reverse; } }
+
     </style>
 </head>
 <body>
@@ -882,14 +903,32 @@
         <canvas class="hero-bg" id="heroCanvas"></canvas>
         <div class="hero-content fade-in">
             <h1 class="hero-title">MINA</h1>
-            <p class="hero-subtitle">Ultra Professional Developer</p>
+            <p class="hero-subtitle"> Programmer & Developer </p>
             <p class="hero-description">Crafting next-generation digital experiences with cutting-edge technologies and innovative design thinking</p>
             <div class="cta-buttons">
                 <a href="#projects" class="btn btn-primary">View My Work</a>
-                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                <a href="apply.html" class="btn btn-secondary">apply</a>
             </div>
         </div>
     </section>
+
+    <!-- Promo Modal -->
+<div id="promoModal" class="promo-modal" aria-hidden="true" role="dialog" aria-labelledby="promoTitle" aria-modal="true">
+  <div class="promo-backdrop" id="promoBackdrop"></div>
+  <div class="promo-card" role="document">
+    <button class="promo-close" id="promoClose" aria-label="Close">&times;</button>
+    <h2 id="promoTitle">Join Our Team — Build Stunning Websites</h2>
+    <p class="promo-text">
+      If you want to build websites and join our team, please visit the <strong>Apply</strong> page.
+      We're looking for creative developers who care about design and performance.
+    </p>
+    <div class="promo-actions">
+      <a href="apply.html" class="btn btn-primary" id="promoApply">Apply</a>
+      <button class="btn btn-secondary" id="promoCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
 
     <!-- Skills Section -->
     <section class="section" id="skills">
@@ -938,28 +977,41 @@
             <p class="section-subtitle fade-in">Innovative solutions that make a difference</p>
             <div class="projects-grid">
                 <div class="project-card zoom-in">
-<img class="project-canvas" src="اسم-الصورة.jpg" alt="Project Image">
+<img class="project-canvas" src="1.jfif" alt="Project Image">
 
                     <div class="project-content">
-                        <h3 class="project-title">E-Commerce Platform</h3>
-                        <p class="project-description">A full-featured online shopping platform with modern UI and robust backend</p>
-                        <a href="#" class="project-view-btn">View Project</a>
+                        <h3 class="project-title">Church of Saints Peter and Paul</h3>
+                        <p class="project-description">Location of the Church of Saints Peter and Paul in Shebin El Kom</p>
+                        <a href="https://mina-samuel-2010.github.io/Church-of-Saints-Peter-Paul/" class="project-view-btn">View site</a>
                     </div>
                 </div>
                 <div class="project-card zoom-in">
-<img class="project-canvas" src="اسم-الصورة.jpg" alt="Project Image">
 
-                        <h3 class="project-title">Health & Fitness App</h3>
-                        <p class="project-description">Mobile application for tracking health metrics with beautiful data visualizations</p>
-                        <a href="#" class="project-view-btn">View Project</a>
+                    <img class="project-canvas" src="123.png" alt="Project Image">
+
+                    <div class="project-content">
+                        <h3 class="project-title">marvil</h3>
+                        <p class="project-description">A clothing website specialized in children's, adults', men's and women's clothing</p>
+                        <a href="https://marvelbrand2025-cpu.github.io/marvel.brand.2025/index.html" class="project-view-btn">View site</a>
                     </div>
                 </div>
                 <div class="project-card zoom-in">
-<img class="project-canvas" src="اسم-الصورة.jpg" alt="Project Image">
 
-                        <h3 class="project-title">AI Content Generator</h3>
-                        <p class="project-description">Web application leveraging AI to generate creative content for marketing</p>
-                        <a href="#" class="project-view-btn">View Project</a>
+
+<img class="project-canvas" src="جويرية 4.png" alt="Project Image">
+
+                        <h3 class="project-title">Jowairia</h3>
+                        <p class="project-description">Specializing in selling Islamic women's clothing</p>
+                        <a href="https://asmaaaamohammed.github.io/jowaria/index.html" class="project-view-btn">View site</a>
+                    </div>
+                </div>
+                <div class="project-card zoom-in">
+<img class="project-canvas" src="1.jpg" alt="Project Image">
+
+                        <h3 class="project-title">Blanco</h3>
+                        <p class="project-description">Modeling expert site</p>
+                        <a href="https://blancoo-agency.github.io/blanco-agency/index.html" class="project-view-btn">View site</a>
+                        
                     </div>
                 </div>
             </div>
@@ -972,13 +1024,13 @@
             <h2 class="section-title fade-in">About Me</h2>
             <p class="section-subtitle fade-in">Get to know my journey and passion</p>
             <div class="about-content">
-                <img class="about-canvas" src="Screenshot 2025-03-13 024330.png" alt="About Me Photo">
+                <img class="about-canvas" src="321.jpeg" alt="About Me Photo">
 
                 <div class="about-text fade-in">
                     <h3>Who I Am</h3>
-                    <p>I'm a passionate developer with over 7 years of experience in creating digital solutions that solve real-world problems. My journey in tech began with a deep curiosity about how things work, which evolved into a career designing and building sophisticated software systems.</p>
-                    <p>I specialize in full-stack development, with expertise in modern JavaScript frameworks, mobile application development, and cloud infrastructure. I believe in writing clean, maintainable code and creating intuitive user experiences.</p>
-                    <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge through tech workshops and mentoring.</p>
+                    <p>Hello world, I'm Mina Samuel, an Egyptian programmer and developer living in Egypt.</p>
+                    <p>I have over six years of experience in programming using various programming languages.</p>
+                    <p>I've been working as a professional web developer for five years and have created dozens of websites, some of which I've mentioned on this site. I create these websites with complete professionalism.</p>
                 </div>
             </div>
         </div>
@@ -1065,6 +1117,72 @@
                 loadingScreen.classList.add('hidden');
             }, 3000);
         });
+
+        // Promo modal behaviour: show on every page load, re-show after 20 minutes if user stays
+(function(){
+  const modal = document.getElementById('promoModal');
+  const backdrop = document.getElementById('promoBackdrop');
+  const closeBtn = document.getElementById('promoClose');
+  const cancelBtn = document.getElementById('promoCancel');
+  const applyBtn = document.getElementById('promoApply');
+  const REAPPEAR_MS = 20 * 60 * 1000; // 20 minutes
+
+  let reappearTimer = null;
+
+  function showModal() {
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    // prevent page scroll while modal open
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    // focus for accessibility
+    closeBtn.focus();
+    // set timer to re-open after 20 minutes (clear any existing so duplicates don't pile up)
+    if (reappearTimer) clearTimeout(reappearTimer);
+    reappearTimer = setTimeout(() => {
+      // if modal is already open, briefly hide then show again to draw attention
+      if (modal.classList.contains('active')) {
+        modal.classList.remove('active');
+        setTimeout(()=> modal.classList.add('active'), 300);
+      } else {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+    }, REAPPEAR_MS);
+  }
+
+  function hideModal() {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+
+  // show 5 seconds after page load (every visit)
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(showModal, 10000);
+  });
+
+
+  // close handlers
+  closeBtn.addEventListener('click', hideModal);
+  cancelBtn.addEventListener('click', hideModal);
+  backdrop.addEventListener('click', hideModal);
+
+  // keyboard: Esc closes modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      hideModal();
+    }
+  });
+
+  // when user clicks Apply, default anchor handles navigation to apply.html
+  // still close modal for a clean UX if the link is prevented or ajax used
+  applyBtn.addEventListener('click', () => {
+    hideModal();
+    // navigation will follow the anchor href
+  });
+})();
 
         
     document.addEventListener('contextmenu', event => event.preventDefault());
